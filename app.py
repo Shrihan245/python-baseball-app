@@ -1,9 +1,10 @@
-import os
+import json
+from pathlib import Path
 from flask import Flask, render_template
 
-print("RUNNING APP FROM:", os.path.abspath(__file__))
-
 app = Flask(__name__)
+
+DATA_DIR = Path(__file__).parent / "data"
 
 @app.route("/")
 def home():
@@ -13,9 +14,15 @@ def home():
 def about():
     return render_template("about.html")
 
-@app.route("/check")
-def check():
-    return "check works"
+@app.route("/players")
+def players():
+    players = json.loads((DATA_DIR / "players.json").read_text(encoding="utf-8"))
+    return render_template("players.html", players=players)
+
+@app.route("/teams")
+def teams():
+    return render_template("teams.html")
+
 
 if __name__ == "__main__":
     app.run(debug=True)

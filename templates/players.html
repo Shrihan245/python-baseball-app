@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Players | Baseball & Me{% endblock %}
+
+{% block content %}
+<h2>Players</h2>
+<p>This page is generated from <code>data/players.json</code></p>
+
+{% for p in players %}
+<div class="card">
+    <h2>{{ p.name }}</h2>
+    <ul>
+        <li><strong>Position:</strong> {{ p.position }}</li>
+        <li><strong>Team:</strong> {{ p.team }}</li>
+        <li><strong>Fun Fact:</strong> {{ p.fun_fact }}</li>
+    </ul>
+</div>
+{% endfor %}
+{% endblock %}

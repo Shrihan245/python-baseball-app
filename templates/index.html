@@ -1,21 +1,32 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Baseball Passion</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
-</head>
-<body>
-    <h1>⚾️ Baseball & Me</h1>
-    <p>A personal project combining my passion for baseball and web development.</p>
-    
-    <nav>
-        <a href="/">Home</a> |
-        <a href="/about">About</a>
-    </nav>
+{% extends "base.html" %}
+{% block title %}Home | Baseball Passion{% endblock %}
 
-    <section>
-        <h2>Why Baseball?</h2>
-        <p>Edit this section: talk about memories, teams, or moments.</p>
-    </section>
-</body>
-</html>
+{% block content %}
+<section class="hero">
+    <h1>Baseball is my passion.</h1>
+    <p>I'm building this site to combine baseball with learning Python + web development.</p>
+    <div class="hero-actions">
+        <a class="btn" href="/players">Explore Players</a>
+        <a class="btn btn-ghost" href="/teams">See Teams</a>
+    </div>
+</section>
+
+<section class="grid">
+    <div class="card">
+        <h2>Favorite Teams</h2>
+        <ul>
+            <li>Edit Team #1</li>
+            <li>Edit Team #2</li>
+            <li>Edit Team #3</li>
+        </ul>
+    </div>
+    <div class="card">
+        <h2>Site Goals</h2>
+        <ul>
+            <li>Clean multi-page website</li>
+            <li>Data-driven pages (players/stats)</li>
+            <li>Deploy publicly for resume</li>
+        </ul>
+    </div>
+</section>
+{% endblock %}

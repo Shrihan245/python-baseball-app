@@ -1,13 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>About This Site</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
-</head>
-<body>
-    <h1>About This Project</h1>
-    <p>This site was built using Python and Flask as a learning project.</p>
+{% extends "base.html" %}
+{% block title %}About | Baseball & Me{% endblock %}
 
-    <a href="/">Back</a>
-</body>
-</html>
+{% block content %}
+<h2>About This Project</h2>
+<div class="card">
+    <p><strong>Tech:</strong> Python, Flask, HTML, CSS</p>
+    <p><strong>Goal:</strong> Build a clean multi-page site and expand it with data-driven features.</p>
+    <p><strong>What I learned:</strong> routing, templates, static files, debugging local dev issues.</p>
+</div>
+{% endblock %}
