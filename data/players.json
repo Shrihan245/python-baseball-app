@@ -1,5 +1,14 @@
 [
-    {"name": "Freddie Freeman", "position": "1B", "team": "Los Angeles Dodgers", "fun_fact": "Two-way superstar" },
-    {"name": "Ronald Acuña Jr.", "position": "OF", "team": "Atlanta Braves", "fun_fact": "Power + speed" },
-    {"name": "Honus Wagner", "position": "SS", "team": "Pittsburgh Pirates", "fun_fact": "Namesake of the famous T206 card" }
-]
+    {
+      "name": "Honus Wagner",
+      "position": "Shortstop",
+      "team": "Pittsburgh Pirates",
+      "fun_fact": "One of baseball's earliest superstars."
+    },
+    {
+      "name": "Shohei Ohtani",
+      "position": "DH / Pitcher",
+      "team": "Los Angeles Dodgers",
+      "fun_fact": "Modern two-way player."
+    }
+  ]
