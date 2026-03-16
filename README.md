@@ -106,4 +106,5 @@ Open [http://localhost:5000](http://localhost:5000) in your browser.
 
 **Shrihan Bodapati** — Built as a portfolio project to learn Python web development through something I actually care about.
 
-[GitHub](https://github.com/yourusername) · [LinkedIn](https://linkedin.com/in/yourprofile)
+[GitHub](https://github.com/Shrihan245) · [LinkedIn](https://linkedin.com/in/shrihan-bodapati)
+
