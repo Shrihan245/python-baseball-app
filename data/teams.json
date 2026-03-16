@@ -1,0 +1,80 @@
+[
+    {
+      "id": 1,
+      "name": "Los Angeles Dodgers",
+      "abbreviation": "LAD",
+      "league": "NL West",
+      "founded": 1883,
+      "championships": 7,
+      "ballpark": "Dodger Stadium",
+      "colors": ["#005A9C", "#EF3E42"],
+      "color_hex": "#005A9C",
+      "description": "One of baseball's most storied franchises. The 2024 World Series champions boast a roster of superstars, a legendary ballpark, and a passionate fanbase spanning generations.",
+      "notable_players": ["Shohei Ohtani", "Mookie Betts", "Freddie Freeman"]
+    },
+    {
+      "id": 2,
+      "name": "New York Yankees",
+      "abbreviation": "NYY",
+      "league": "AL East",
+      "founded": 1901,
+      "championships": 27,
+      "ballpark": "Yankee Stadium",
+      "colors": ["#003087", "#E4002C"],
+      "color_hex": "#003087",
+      "description": "The most decorated franchise in American sports. With 27 World Series titles and an iconic pinstripe uniform, the Yankees represent the standard every team chases.",
+      "notable_players": ["Aaron Judge", "Gerrit Cole", "Juan Soto"]
+    },
+    {
+      "id": 3,
+      "name": "Atlanta Braves",
+      "abbreviation": "ATL",
+      "league": "NL East",
+      "founded": 1871,
+      "championships": 4,
+      "ballpark": "Truist Park",
+      "colors": ["#CE1141", "#13274F"],
+      "color_hex": "#CE1141",
+      "description": "Back-to-back NL East dominators with a deep farm system and a culture of winning. The 2021 World Series champions built around elite young talent and veteran leadership.",
+      "notable_players": ["Ronald Acuña Jr.", "Spencer Strider", "Matt Olson"]
+    },
+    {
+      "id": 4,
+      "name": "Houston Astros",
+      "abbreviation": "HOU",
+      "league": "AL West",
+      "founded": 1962,
+      "championships": 2,
+      "ballpark": "Minute Maid Park",
+      "colors": ["#002D62", "#EB6E1F"],
+      "color_hex": "#002D62",
+      "description": "A dynasty built on analytics and pitching development. The Astros have reached the World Series four times since 2017, cementing their place among baseball's elite.",
+      "notable_players": ["Yordan Alvarez", "José Altuve", "Framber Valdez"]
+    },
+    {
+      "id": 5,
+      "name": "New York Mets",
+      "abbreviation": "NYM",
+      "league": "NL East",
+      "founded": 1962,
+      "championships": 2,
+      "ballpark": "Citi Field",
+      "colors": ["#002D72", "#FF5910"],
+      "color_hex": "#002D72",
+      "description": "The 2024 Wild Card darlings who stunned the baseball world with an improbable playoff run. With Juan Soto and Francisco Lindor, the Mets are built for years to come.",
+      "notable_players": ["Juan Soto", "Francisco Lindor", "Pete Alonso"]
+    },
+    {
+      "id": 6,
+      "name": "Chicago Cubs",
+      "abbreviation": "CHC",
+      "league": "NL Central",
+      "founded": 1876,
+      "championships": 3,
+      "ballpark": "Wrigley Field",
+      "colors": ["#0E3386", "#CC3433"],
+      "color_hex": "#0E3386",
+      "description": "One of baseball's most iconic franchises, playing in the beloved Wrigley Field since 1914. The 2016 championship ended a 108-year drought in one of sports' greatest moments.",
+      "notable_players": ["Dansby Swanson", "Seiya Suzuki", "Cody Bellinger"]
+    }
+  ]

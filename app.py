@@ -1,11 +1,15 @@
 """
-Python Baseball Web App
+Baseball & Me — Flask Web Application
 Author: Shrihan Bodapati
 
-Simple Flask application demonstrating:
-- Multi-page routing
-- Template inheritance
-- JSON-driven dynamic content
+A data-driven, multi-page Flask app showcasing baseball players and teams.
+
+Demonstrates:
+  - Multi-page routing with Flask
+  - Template inheritance with Jinja2
+  - JSON-driven dynamic content
+  - Server-side search with query params
+  - Clean separation of data, logic, and presentation
 """
 
 from flask import Flask, render_template, request
@@ -14,55 +18,90 @@ from pathlib import Path
 
 app = Flask(__name__)
 
-# ---------- Data ----------
-BASE_DIR = Path(__file__).parent
-DATA_FILE = BASE_DIR / "data" / "players.json"
+# ─── Paths ────────────────────────────────────────────────
+BASE_DIR     = Path(__file__).parent
+PLAYERS_FILE = BASE_DIR / "data" / "players.json"
+TEAMS_FILE   = BASE_DIR / "data" / "teams.json"
 
 
-def load_players():
-    """Load player data from JSON file."""
-    with open(DATA_FILE, "r", encoding="utf-8") as f:
+# ─── Data Helpers ─────────────────────────────────────────
+
+def load_players() -> list[dict]:
+    """Load all player records from JSON."""
+    with open(PLAYERS_FILE, "r", encoding="utf-8") as f:
         return json.load(f)
 
 
-# ---------- Routes ----------
+def load_teams() -> list[dict]:
+    """Load all team records from JSON."""
+    with open(TEAMS_FILE, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+def search_players(players: list[dict], query: str) -> list[dict]:
+    """
+    Filter players by a case-insensitive query string.
+    Matches against player name or team name.
+    """
+    q = query.lower().strip()
+    return [
+        p for p in players
+        if q in p["name"].lower() or q in p["team"].lower()
+    ]
+
+
+# ─── Routes ───────────────────────────────────────────────
 
 @app.route("/")
 def home():
-    return render_template("index.html")
-
-
-@app.route("/about")
-def about():
-    return render_template("about.html")
-
-
-@app.route("/teams")
-def teams():
-    return render_template("teams.html")
+    players = load_players()
+    teams   = load_teams()
+    return render_template(
+        "index.html",
+        active_page="home",
+        total_players=len(players),
+        total_teams=len(teams),
+    )
 
 
 @app.route("/players")
 def players():
-    players = load_players()
+    all_players = load_players()
+    query       = request.args.get("q", "").strip()
 
-    # simple search feature (resume-level improvement)
-    query = request.args.get("q", "").lower()
-
-    if query:
-        players = [
-            p for p in players
-            if query in p["name"].lower()
-            or query in p["team"].lower()
-        ]
+    filtered = search_players(all_players, query) if query else all_players
 
     return render_template(
         "players.html",
-        players=players,
-        query=query
+        active_page="players",
+        players=filtered,
+        query=query,
     )
 
 
-# ---------- Run App ----------
+@app.route("/teams")
+def teams():
+    all_teams = load_teams()
+    return render_template(
+        "teams.html",
+        active_page="teams",
+        teams=all_teams,
+    )
+
+
+@app.route("/about")
+def about():
+    players = load_players()
+    teams   = load_teams()
+    return render_template(
+        "about.html",
+        active_page="about",
+        total_players=len(players),
+        total_teams=len(teams),
+    )
+
+
+# ─── Entry Point ──────────────────────────────────────────
+
 if __name__ == "__main__":
     app.run(debug=True)

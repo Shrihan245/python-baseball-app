@@ -1,34 +1,58 @@
 <!doctype html>
-<html>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, inital-scale=1" />
-        <title>{% block title %}Baseball Passion{% endblock %}</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
-    </head>
-    <body>
-        <header class="site-header">
-            <div class="container header-row">
-                <a class="brand" href="/">Baseball & Me</a>
-                <nav class="nav">
-                    <a href="/">Home</a>
-                    <a href="/players">Players</a>
-                    <a href="/teams">Teams</a>
-                    <a href="/about">About</a>
-                </nav>
-            </div>
-        </header>
-        
-        <main class="container">
-            {% block content %}{% endblock %}
-        </main>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="A baseball passion project by Shrihan Bodapati — player stats, team breakdowns, and the love of the game." />
+    <title>{% block title %}Baseball Passion{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  </head>
+  <body>
 
-        <footer>
-            <div class="container">
-              <p>
-                Built with Python & Flask · Created by Shrihan Bodapati
-              </p>
-            </div>
-          </footer>
-    </body>
+    <!-- Scoreboard ticker -->
+    <div class="scoreboard-banner">
+      <div class="scoreboard-inner">
+        <span>LAD 5 · NYY 3</span>&nbsp;&nbsp;·&nbsp;&nbsp;
+        <span>ATL 7 · NYM 4</span>&nbsp;&nbsp;·&nbsp;&nbsp;
+        <span>HOU 2 · TEX 1</span>&nbsp;&nbsp;·&nbsp;&nbsp;
+        <span>CHC 6 · STL 2</span>&nbsp;&nbsp;·&nbsp;&nbsp;
+        <span>BOS 4 · TOR 4 · F/10</span>&nbsp;&nbsp;·&nbsp;&nbsp;
+        <span>SF 3 · SD 0</span>&nbsp;&nbsp;·&nbsp;&nbsp;
+        <!-- repeat for seamless ticker loop -->
+        <span>LAD 5 · NYY 3</span>&nbsp;&nbsp;·&nbsp;&nbsp;
+        <span>ATL 7 · NYM 4</span>&nbsp;&nbsp;·&nbsp;&nbsp;
+        <span>HOU 2 · TEX 1</span>&nbsp;&nbsp;·&nbsp;&nbsp;
+        <span>CHC 6 · STL 2</span>&nbsp;&nbsp;·&nbsp;&nbsp;
+        <span>BOS 4 · TOR 4 · F/10</span>&nbsp;&nbsp;·&nbsp;&nbsp;
+        <span>SF 3 · SD 0</span>
+      </div>
+    </div>
+
+    <header class="site-header">
+      <div class="container header-row">
+        <a class="brand" href="/">Baseball<span>&</span>Me</a>
+        <nav class="nav">
+          <a href="/" {% if active_page == 'home' %}class="active"{% endif %}>Home</a>
+          <a href="/players" {% if active_page == 'players' %}class="active"{% endif %}>Players</a>
+          <a href="/teams" {% if active_page == 'teams' %}class="active"{% endif %}>Teams</a>
+          <a href="/about" {% if active_page == 'about' %}class="active"{% endif %}>About</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+      <div class="container">
+        <p>
+          Built with Python &amp; Flask · Data: curated JSON ·
+          <a href="https://github.com/yourusername/baseball-app" target="_blank" rel="noopener">GitHub ↗</a>
+          · Created by Shrihan Bodapati
+        </p>
+      </div>
+    </footer>
+
+  </body>
 </html>

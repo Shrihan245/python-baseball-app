@@ -1,32 +1,79 @@
 {% extends "base.html" %}
-{% block title %}Home | Baseball Passion{% endblock %}
+{% block title %}Baseball & Me — A Fan's Passion Project{% endblock %}
 
 {% block content %}
-<section class="hero">
-    <h1>Baseball is my passion.</h1>
-    <p>I'm building this site to combine baseball with learning Python + web development.</p>
-    <div class="hero-actions">
-        <a class="btn" href="/players">Explore Players</a>
-        <a class="btn btn-ghost" href="/teams">See Teams</a>
-    </div>
+
+<!-- Hero -->
+<section class="home-hero container fade-in fade-in-1">
+  <p class="eyebrow">A Passion Project by Shrihan Bodapati</p>
+  <h1>Where stats meet <em>heart</em>.</h1>
+  <p class="subtitle">
+    Explore players, dig into teams, and see what happens when a love of
+    baseball collides with a love of building things on the web.
+  </p>
+  <div class="hero-ctas">
+    <a class="btn btn-primary" href="/players">Explore Players →</a>
+    <a class="btn btn-outline" href="/teams">Browse Teams</a>
+  </div>
 </section>
 
-<section class="grid">
-    <div class="card">
-        <h2>Favorite Teams</h2>
-        <ul>
-            <li>Edit Team #1</li>
-            <li>Edit Team #2</li>
-            <li>Edit Team #3</li>
-        </ul>
+<!-- Stats strip -->
+<div class="container fade-in fade-in-2">
+  <div class="stats-strip">
+    <div class="stat-block">
+      <div class="stat-num">{{ total_players }}</div>
+      <div class="stat-label">Players Profiled</div>
     </div>
-    <div class="card">
-        <h2>Site Goals</h2>
-        <ul>
-            <li>Clean multi-page website</li>
-            <li>Data-driven pages (players/stats)</li>
-            <li>Deploy publicly for resume</li>
-        </ul>
+    <div class="stat-block">
+      <div class="stat-num">{{ total_teams }}</div>
+      <div class="stat-label">Teams Featured</div>
     </div>
+    <div class="stat-block">
+      <div class="stat-num">125+</div>
+      <div class="stat-label">Years of MLB History</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-num">∞</div>
+      <div class="stat-label">Things to Learn</div>
+    </div>
+  </div>
+</div>
+
+<!-- Feature cards -->
+<section class="container section fade-in fade-in-3">
+  <div class="home-grid">
+
+    <div class="card">
+      <div class="home-card-icon">🏅</div>
+      <h3 class="home-card-title">Player Profiles</h3>
+      <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.65;">
+        Browse searchable profiles of today's best players — stats, teams,
+        positions, and a short bio for each. Filter by name or team in seconds.
+      </p>
+      <a class="home-card-link" href="/players">View all players →</a>
+    </div>
+
+    <div class="card">
+      <div class="home-card-icon">🏟️</div>
+      <h3 class="home-card-title">Team Deep Dives</h3>
+      <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.65;">
+        Six featured franchises with founding years, championship counts,
+        home ballparks, and the key players making noise right now.
+      </p>
+      <a class="home-card-link" href="/teams">Browse teams →</a>
+    </div>
+
+    <div class="card">
+      <div class="home-card-icon">⚙️</div>
+      <h3 class="home-card-title">Built from Scratch</h3>
+      <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.65;">
+        Python · Flask · Jinja2 · vanilla CSS. No frameworks, no shortcuts —
+        just routing, templates, and JSON-driven data the right way.
+      </p>
+      <a class="home-card-link" href="/about">How it's built →</a>
+    </div>
+
+  </div>
 </section>
+
 {% endblock %}

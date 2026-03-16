@@ -1,10 +1,104 @@
-<form method="GET" action="/players">
-    <input
-      type="text"
-      name="q"
-      placeholder="Search players or teams..."
-      value="{{ query }}"
-    />
-    <button type="submit" class="button">Search</button>
-  </form>
-  <br>
+{% extends "base.html" %}
+{% block title %}Players | Baseball & Me{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+  <!-- Page hero -->
+  <div class="page-hero fade-in fade-in-1">
+    <p class="overline">Roster</p>
+    <h1>Players</h1>
+    <p>{{ players | length }} player{{ 's' if players | length != 1 else '' }} found
+      {% if query %} — showing results for <strong style="color: var(--chalk);">"{{ query }}"</strong>{% endif %}
+    </p>
+  </div>
+
+  <!-- Search bar -->
+  <div class="search-bar-wrapper fade-in fade-in-2">
+    <form class="search-form" method="GET" action="/players">
+      <input
+        class="search-input"
+        type="text"
+        name="q"
+        placeholder="Search by name or team…"
+        value="{{ query }}"
+        autocomplete="off"
+      />
+      <button type="submit" class="btn btn-primary">Search</button>
+      {% if query %}
+        <a href="/players" class="btn btn-outline">Clear</a>
+      {% endif %}
+    </form>
+  </div>
+
+  <!-- Players grid -->
+  {% if players %}
+  <div class="players-grid fade-in fade-in-3">
+    {% for player in players %}
+    <div class="player-card">
+
+      <div class="player-avatar">
+        {{ player.image_placeholder }}
+        <span class="player-number">#{{ player.number }}</span>
+      </div>
+
+      <div class="player-body">
+        <h3 class="player-name">{{ player.name }}</h3>
+        <div class="player-meta">
+          <span class="badge badge-position">{{ player.position }}</span>
+          <span class="player-team">{{ player.team }}</span>
+        </div>
+        <p class="player-bio">{{ player.bio }}</p>
+
+        <div class="player-stats">
+          {% if player.stats.avg != '—' %}
+          <div class="player-stat">
+            <span class="player-stat-val">{{ player.stats.avg }}</span>
+            <span class="player-stat-key">AVG</span>
+          </div>
+          <div class="player-stat">
+            <span class="player-stat-val">{{ player.stats.hr }}</span>
+            <span class="player-stat-key">HR</span>
+          </div>
+          <div class="player-stat">
+            <span class="player-stat-val">{{ player.stats.rbi }}</span>
+            <span class="player-stat-key">RBI</span>
+          </div>
+          <div class="player-stat">
+            <span class="player-stat-val">{{ player.stats.ops }}</span>
+            <span class="player-stat-key">OPS</span>
+          </div>
+          {% else %}
+          <div class="player-stat">
+            <span class="player-stat-val">{{ player.stats.era }}</span>
+            <span class="player-stat-key">ERA</span>
+          </div>
+          <div class="player-stat">
+            <span class="player-stat-val">{{ player.stats.so }}</span>
+            <span class="player-stat-key">K's</span>
+          </div>
+          <div class="player-stat" style="grid-column: span 2;">
+            <span class="player-stat-val" style="font-size: 0.8rem;">SP</span>
+            <span class="player-stat-key">Starting P.</span>
+          </div>
+          {% endif %}
+        </div>
+
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  {% else %}
+  <div class="no-results fade-in">
+    <div class="icon">⚾</div>
+    <h3>No players found</h3>
+    <p>Try a different name or team name.</p>
+    <br>
+    <a href="/players" class="btn btn-outline">Show all players</a>
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}

@@ -2,10 +2,106 @@
 {% block title %}About | Baseball & Me{% endblock %}
 
 {% block content %}
-<h2>About This Project</h2>
-<div class="card">
-    <p><strong>Tech:</strong> Python, Flask, HTML, CSS</p>
-    <p><strong>Goal:</strong> Build a clean multi-page site and expand it with data-driven features.</p>
-    <p><strong>What I learned:</strong> routing, templates, static files, debugging local dev issues.</p>
+
+<div class="container">
+
+  <div class="page-hero fade-in fade-in-1">
+    <p class="overline">The Project</p>
+    <h1>About</h1>
+    <p>A portfolio project at the intersection of a genuine love for baseball and the challenge of building real web applications.</p>
+  </div>
+
+  <div class="about-layout fade-in fade-in-2">
+
+    <!-- Main content -->
+    <div>
+
+      <div class="about-section">
+        <h3>Why I Built This</h3>
+        <p>
+          Baseball has a unique relationship with data — no other sport has been so deeply analyzed, so
+          obsessively documented, or so thoroughly transformed by analytics. I wanted to build something
+          that honors that tradition while teaching myself the fundamentals of full-stack web development.
+        </p>
+        <p>
+          This project started as a simple multi-page Flask site and evolved into a data-driven application
+          with search, dynamic templates, and a JSON-driven backend. Every feature was a new lesson.
+        </p>
+      </div>
+
+      <div class="about-section">
+        <h3>Tech Stack</h3>
+        <div class="tech-stack">
+          <span class="tech-pill">Python 3</span>
+          <span class="tech-pill">Flask</span>
+          <span class="tech-pill">Jinja2</span>
+          <span class="tech-pill">HTML5</span>
+          <span class="tech-pill">CSS3</span>
+          <span class="tech-pill">JSON</span>
+          <span class="tech-pill">Git / GitHub</span>
+        </div>
+      </div>
+
+      <div class="about-section">
+        <h3>What I Learned</h3>
+        <div class="learnings-list">
+          <span class="learning-item">Flask routing — serving multiple pages from a single Python app</span>
+          <span class="learning-item">Jinja2 template inheritance — keeping HTML DRY with base layouts and blocks</span>
+          <span class="learning-item">Dynamic content rendering — loading and filtering JSON data per request</span>
+          <span class="learning-item">Search with query params — using <code style="font-family: monospace; color: var(--chalk);">request.args</code> to filter data server-side</span>
+          <span class="learning-item">CSS architecture — variables, responsive grids, and animations without a framework</span>
+          <span class="learning-item">Version control workflow — meaningful commits, structured branching</span>
+          <span class="learning-item">Local development — debugging Flask dev server, static file paths, port conflicts</span>
+        </div>
+      </div>
+
+      <div class="about-section">
+        <h3>What's Next</h3>
+        <p>
+          The roadmap includes integrating a live API (MLB Stats API or Baseball Reference) to replace static
+          JSON data, adding individual player detail pages, and eventually deploying to a public URL so this
+          lives on a real server — not just localhost.
+        </p>
+      </div>
+
+    </div>
+
+    <!-- Sidebar -->
+    <aside>
+      <div class="sidebar-card">
+        <h3>Project Links</h3>
+        <div class="sidebar-link-list">
+          <a class="sidebar-link" href="https://github.com/yourusername/baseball-app" target="_blank" rel="noopener">
+            <span class="icon">📁</span> Source Code on GitHub
+          </a>
+          <a class="sidebar-link" href="/players">
+            <span class="icon">🏅</span> Player Profiles
+          </a>
+          <a class="sidebar-link" href="/teams">
+            <span class="icon">🏟️</span> Team Pages
+          </a>
+        </div>
+
+        <br>
+        <h3 style="font-size: 0.9rem; margin-bottom: 1rem;">By the Numbers</h3>
+        <div class="sidebar-link-list">
+          <div class="sidebar-link" style="cursor: default;">
+            <span class="icon">🗓️</span> Started: 2025
+          </div>
+          <div class="sidebar-link" style="cursor: default;">
+            <span class="icon">📄</span> {{ total_players }} players in the database
+          </div>
+          <div class="sidebar-link" style="cursor: default;">
+            <span class="icon">🏟️</span> {{ total_teams }} teams featured
+          </div>
+          <div class="sidebar-link" style="cursor: default;">
+            <span class="icon">⚙️</span> 0 JavaScript frameworks
+          </div>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+
 </div>
 {% endblock %}
