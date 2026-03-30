@@ -4,6 +4,8 @@ A data-driven, multi-page web application built with **Python** and **Flask** â€
 
 > **Live demo:** *coming soon (deployment in progress)*
 
+![App Preview](baseball-preview.png)
+
 ---
 
 ## What It Does
