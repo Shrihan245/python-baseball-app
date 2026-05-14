@@ -2,7 +2,7 @@
 
 A data-driven, multi-page web application built with **Python** and **Flask** — combining a genuine love of baseball with hands-on full-stack development.
 
-> **Live demo:** *coming soon (deployment in progress)*
+> **Live demo:** [baseball-app.onrender.com](https://baseball-app.onrender.com)
 
 ![App Preview](baseball-preview.png)
 
