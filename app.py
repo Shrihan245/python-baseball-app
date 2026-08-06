@@ -15,6 +15,7 @@ Demonstrates:
 from flask import Flask, render_template, request
 import json
 from pathlib import Path
+from mlb_api import get_standings
 
 app = Flask(__name__)
 
@@ -86,6 +87,15 @@ def teams():
         "teams.html",
         active_page="teams",
         teams=all_teams,
+    )
+
+@app.route("/standings")
+def standings():
+    divisions = get_standings()
+    return render_template(
+        "standings.html",
+        active_page="standings",
+        divisions=divisions,
     )
 
 

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Standings · Baseball & Me{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h1>Live MLB Standings</h1>
+  <p class="page-intro">
+    Pulled live from MLB's official Stats API — updates automatically as games are played.
+  </p>
+
+  {% if not divisions %}
+    <p class="empty-state">Standings are temporarily unavailable. Try refreshing in a moment.</p>
+  {% else %}
+    {% for division in divisions %}
+      <section class="standings-division">
+        <h2>{{ division.division_name }}</h2>
+        <table class="standings-table">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Team</th>
+              <th>W</th>
+              <th>L</th>
+              <th>PCT</th>
+              <th>GB</th>
+              <th>Streak</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for team in division.teams %}
+              <tr>
+                <td>{{ team.rank }}</td>
+                <td>{{ team.name }}</td>
+                <td>{{ team.wins }}</td>
+                <td>{{ team.losses }}</td>
+                <td>{{ team.pct }}</td>
+                <td>{{ team.games_back }}</td>
+                <td>{{ team.streak }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </section>
+    {% endfor %}
+  {% endif %}
+</div>
+{% endblock %}
