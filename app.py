@@ -2,96 +2,89 @@
 Baseball & Me — Flask Web Application
 Author: Shrihan Bodapati
 
-A data-driven, multi-page Flask app showcasing baseball players and teams.
-
-Demonstrates:
-  - Multi-page routing with Flask
-  - Template inheritance with Jinja2
-  - JSON-driven dynamic content
-  - Server-side search with query params
-  - Clean separation of data, logic, and presentation
+A data-driven, multi-page Flask app showcasing live MLB teams,
+rosters, players, and standings via MLB's public Stats API.
 """
 
-from flask import Flask, render_template, request
-import json
-from pathlib import Path
-from mlb_api import get_standings
+from flask import Flask, render_template, request, abort
+import mlb_api
 
 app = Flask(__name__)
-
-# ─── Paths ────────────────────────────────────────────────
-BASE_DIR     = Path(__file__).parent
-PLAYERS_FILE = BASE_DIR / "data" / "players.json"
-TEAMS_FILE   = BASE_DIR / "data" / "teams.json"
-
-
-# ─── Data Helpers ─────────────────────────────────────────
-
-def load_players() -> list[dict]:
-    """Load all player records from JSON."""
-    with open(PLAYERS_FILE, "r", encoding="utf-8") as f:
-        return json.load(f)
-
-
-def load_teams() -> list[dict]:
-    """Load all team records from JSON."""
-    with open(TEAMS_FILE, "r", encoding="utf-8") as f:
-        return json.load(f)
-
-
-def search_players(players: list[dict], query: str) -> list[dict]:
-    """
-    Filter players by a case-insensitive query string.
-    Matches against player name or team name.
-    """
-    q = query.lower().strip()
-    return [
-        p for p in players
-        if q in p["name"].lower() or q in p["team"].lower()
-    ]
 
 
 # ─── Routes ───────────────────────────────────────────────
 
 @app.route("/")
 def home():
-    players = load_players()
-    teams   = load_teams()
+    divisions = mlb_api.get_all_teams()
+    total_teams = sum(len(d["teams"]) for d in divisions)
     return render_template(
         "index.html",
         active_page="home",
-        total_players=len(players),
-        total_teams=len(teams),
+        total_players=780,  # approx. active MLB roster spots (30 teams x 26-man roster)
+        total_teams=total_teams,
     )
 
 
 @app.route("/players")
 def players():
-    all_players = load_players()
-    query       = request.args.get("q", "").strip()
-
-    filtered = search_players(all_players, query) if query else all_players
-
+    query = request.args.get("q", "").strip()
+    results = mlb_api.search_players(query) if query else []
     return render_template(
         "players.html",
         active_page="players",
-        players=filtered,
+        players=results,
         query=query,
+    )
+
+
+@app.route("/players/<int:person_id>")
+def player_detail(person_id):
+    profile = mlb_api.get_player_profile(person_id)
+    if not profile:
+        abort(404)
+
+    is_pitcher = profile["position_type"] == "Pitcher"
+    stats = mlb_api.get_player_season_stats(person_id, is_pitcher=is_pitcher)
+
+    return render_template(
+        "player_detail.html",
+        active_page="players",
+        player=profile,
+        stats=stats,
+        is_pitcher=is_pitcher,
     )
 
 
 @app.route("/teams")
 def teams():
-    all_teams = load_teams()
+    divisions = mlb_api.get_all_teams()
     return render_template(
         "teams.html",
         active_page="teams",
-        teams=all_teams,
+        divisions=divisions,
     )
+
+
+@app.route("/teams/<int:team_id>")
+def team_detail(team_id):
+    team = mlb_api.get_team_by_id(team_id)
+    if not team:
+        abort(404)
+
+    roster = mlb_api.get_team_roster(team_id)
+
+    return render_template(
+        "team_detail.html",
+        active_page="teams",
+        team=team,
+        roster=roster,
+    )
+
 
 @app.route("/standings")
 def standings():
-    divisions = get_standings()
+    divisions = mlb_api.get_standings()
     return render_template(
         "standings.html",
         active_page="standings",
@@ -101,13 +94,13 @@ def standings():
 
 @app.route("/about")
 def about():
-    players = load_players()
-    teams   = load_teams()
+    divisions = mlb_api.get_all_teams()
+    total_teams = sum(len(d["teams"]) for d in divisions)
     return render_template(
         "about.html",
         active_page="about",
-        total_players=len(players),
-        total_teams=len(teams),
+        total_players=780,
+        total_teams=total_teams,
     )
 
 

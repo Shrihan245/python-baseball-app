@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}{{ player.full_name }} | Baseball & Me{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+  <div class="page-hero fade-in fade-in-1">
+    <p class="overline">{{ player.team_name }}</p>
+    <h1>{{ player.full_name }}</h1>
+    <p>
+      <span class="badge badge-position">{{ player.position_name }}</span>
+      &nbsp;#{{ player.jersey_number }}
+    </p>
+  </div>
+
+  <a href="/players" class="btn btn-outline fade-in fade-in-1" style="margin-bottom: 2rem; display: inline-flex;">← Back to Search</a>
+
+  <div class="about-layout fade-in fade-in-2">
+    <div>
+      <div class="about-section">
+        <h3>{{ "Season Pitching Stats" if is_pitcher else "Season Batting Stats" }}</h3>
+        {% if stats %}
+        <div class="player-stats" style="margin-top: 1rem; padding-top: 0; border-top: none;">
+          {% if is_pitcher %}
+            <div class="player-stat"><span class="player-stat-val">{{ stats.era }}</span><span class="player-stat-key">ERA</span></div>
+            <div class="player-stat"><span class="player-stat-val">{{ stats.wins }}-{{ stats.losses }}</span><span class="player-stat-key">W-L</span></div>
+            <div class="player-stat"><span class="player-stat-val">{{ stats.strikeouts }}</span><span class="player-stat-key">K's</span></div>
+            <div class="player-stat"><span class="player-stat-val">{{ stats.innings_pitched }}</span><span class="player-stat-key">IP</span></div>
+          {% else %}
+            <div class="player-stat"><span class="player-stat-val">{{ stats.avg }}</span><span class="player-stat-key">AVG</span></div>
+            <div class="player-stat"><span class="player-stat-val">{{ stats.home_runs }}</span><span class="player-stat-key">HR</span></div>
+            <div class="player-stat"><span class="player-stat-val">{{ stats.rbi }}</span><span class="player-stat-key">RBI</span></div>
+            <div class="player-stat"><span class="player-stat-val">{{ stats.ops }}</span><span class="player-stat-key">OPS</span></div>
+          {% endif %}
+        </div>
+        {% else %}
+        <p>No stats available yet for the current season.</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="sidebar-card">
+      <h3>Player Info</h3>
+      <div class="sidebar-link-list">
+        <div class="sidebar-link"><span class="icon">🎂</span> Born {{ player.birth_date }}</div>
+        {% if player.birth_city %}
+        <div class="sidebar-link"><span class="icon">📍</span> {{ player.birth_city }}{% if player.birth_country and player.birth_country != 'USA' %}, {{ player.birth_country }}{% endif %}</div>
+        {% endif %}
+        <div class="sidebar-link"><span class="icon">📏</span> {{ player.height }}, {{ player.weight }} lbs</div>
+        {% if is_pitcher %}
+        <div class="sidebar-link"><span class="icon">🥎</span> Throws {{ player.pitch_hand }}</div>
+        {% else %}
+        <div class="sidebar-link"><span class="icon">🏏</span> Bats {{ player.bat_side }}</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

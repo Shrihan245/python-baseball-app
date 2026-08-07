@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}{{ team.name }} | Baseball & Me{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+  <div class="page-hero fade-in fade-in-1">
+    <p class="overline">{{ team.division_name }}</p>
+    <h1>{{ team.name }}</h1>
+    <p>{{ team.league_name }} · Plays at {{ team.venue_name }} · Est. {{ team.first_year }}</p>
+  </div>
+
+  <a href="/teams" class="btn btn-outline fade-in fade-in-1" style="margin-bottom: 2rem; display: inline-flex;">← All Teams</a>
+
+  <h2 style="margin-bottom: 1.25rem;" class="fade-in fade-in-2">Active Roster</h2>
+
+  {% if not roster %}
+  <div class="no-results fade-in">
+    <div class="icon">⚾</div>
+    <h3>Roster unavailable</h3>
+    <p>The live MLB API didn't return roster data. Try refreshing in a moment.</p>
+  </div>
+  {% else %}
+  <div class="standings-division fade-in fade-in-3">
+    <table class="standings-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Position</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for player in roster %}
+        <tr>
+          <td>{{ player.jersey_number }}</td>
+          <td><a href="/players/{{ player.person_id }}" style="color: var(--chalk);">{{ player.full_name }}</a></td>
+          <td><span class="badge badge-position">{{ player.position_abbr }}</span> {{ player.position_name }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}

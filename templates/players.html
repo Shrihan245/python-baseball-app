@@ -7,10 +7,11 @@
 
   <!-- Page hero -->
   <div class="page-hero fade-in fade-in-1">
-    <p class="overline">Roster</p>
+    <p class="overline">Player Search</p>
     <h1>Players</h1>
-    <p>{{ players | length }} player{{ 's' if players | length != 1 else '' }} found
-      {% if query %} — showing results for <strong style="color: var(--chalk);">"{{ query }}"</strong>{% endif %}
+    <p>
+      Search any active or former MLB player by name — live from MLB's official Stats API.
+      {% if query %} Showing results for <strong style="color: var(--chalk);">"{{ query }}"</strong>.{% endif %}
     </p>
   </div>
 
@@ -21,7 +22,7 @@
         class="search-input"
         type="text"
         name="q"
-        placeholder="Search by name or team…"
+        placeholder="Search by player name…"
         value="{{ query }}"
         autocomplete="off"
       />
@@ -32,61 +33,30 @@
     </form>
   </div>
 
-  <!-- Players grid -->
-  {% if players %}
+  {% if not query %}
+  <div class="no-results fade-in">
+    <div class="icon">⚾</div>
+    <h3>Search for a player</h3>
+    <p>Type a name above to find live stats for any MLB player — e.g. "Ohtani" or "Judge".</p>
+  </div>
+
+  {% elif players %}
   <div class="players-grid fade-in fade-in-3">
     {% for player in players %}
-    <div class="player-card">
-
-      <div class="player-avatar">
-        {{ player.image_placeholder }}
-        <span class="player-number">#{{ player.number }}</span>
-      </div>
-
-      <div class="player-body">
-        <h3 class="player-name">{{ player.name }}</h3>
-        <div class="player-meta">
-          <span class="badge badge-position">{{ player.position }}</span>
-          <span class="player-team">{{ player.team }}</span>
+    <a href="/players/{{ player.person_id }}" style="text-decoration: none; color: inherit;">
+      <div class="player-card">
+        <div class="player-avatar">
+          {{ player.full_name.split(' ') | map('first') | join('') | upper }}
         </div>
-        <p class="player-bio">{{ player.bio }}</p>
-
-        <div class="player-stats">
-          {% if player.stats.avg != '—' %}
-          <div class="player-stat">
-            <span class="player-stat-val">{{ player.stats.avg }}</span>
-            <span class="player-stat-key">AVG</span>
+        <div class="player-body">
+          <h3 class="player-name">{{ player.full_name }}</h3>
+          <div class="player-meta">
+            <span class="badge badge-position">{{ player.position_name }}</span>
           </div>
-          <div class="player-stat">
-            <span class="player-stat-val">{{ player.stats.hr }}</span>
-            <span class="player-stat-key">HR</span>
-          </div>
-          <div class="player-stat">
-            <span class="player-stat-val">{{ player.stats.rbi }}</span>
-            <span class="player-stat-key">RBI</span>
-          </div>
-          <div class="player-stat">
-            <span class="player-stat-val">{{ player.stats.ops }}</span>
-            <span class="player-stat-key">OPS</span>
-          </div>
-          {% else %}
-          <div class="player-stat">
-            <span class="player-stat-val">{{ player.stats.era }}</span>
-            <span class="player-stat-key">ERA</span>
-          </div>
-          <div class="player-stat">
-            <span class="player-stat-val">{{ player.stats.so }}</span>
-            <span class="player-stat-key">K's</span>
-          </div>
-          <div class="player-stat" style="grid-column: span 2;">
-            <span class="player-stat-val" style="font-size: 0.8rem;">SP</span>
-            <span class="player-stat-key">Starting P.</span>
-          </div>
-          {% endif %}
+          <p class="player-bio">{{ player.team_name }}</p>
         </div>
-
       </div>
-    </div>
+    </a>
     {% endfor %}
   </div>
 
@@ -94,9 +64,9 @@
   <div class="no-results fade-in">
     <div class="icon">⚾</div>
     <h3>No players found</h3>
-    <p>Try a different name or team name.</p>
+    <p>Try a different spelling or a more common name.</p>
     <br>
-    <a href="/players" class="btn btn-outline">Show all players</a>
+    <a href="/players" class="btn btn-outline">Search again</a>
   </div>
   {% endif %}
 
