@@ -1,8 +1,8 @@
 # ⚾ Baseball & Me
 
-A data-driven, multi-page web application built with **Python** and **Flask** — combining a genuine love of baseball with hands-on full-stack development.
+A data-driven, multi-page web application built with **Python** and **Flask** — combining a genuine love of baseball with hands-on full-stack development and a live integration with MLB's official Stats API.
 
-> **Live demo:** [baseball-app.onrender.com](https://python-baseball-app.onrender.com)
+> **Live demo:** [python-baseball-app.onrender.com](https://python-baseball-app.onrender.com)
 
 ![App Preview](baseball-preview.png)
 
@@ -12,9 +12,11 @@ A data-driven, multi-page web application built with **Python** and **Flask** �
 
 | Page | Description |
 |------|-------------|
-| **Home** | Landing page with a live scoreboard ticker, quick stats, and feature cards |
-| **Players** | Searchable grid of 10 MLB player profiles with stats, positions, and bios |
-| **Teams** | 6 featured franchises with founding year, championship count, ballpark, and key players |
+| **Home** | Landing page with a scoreboard ticker, live team/roster counts, and feature cards |
+| **Standings** | Live division standings for all 30 MLB teams — wins, losses, win %, games back, streak |
+| **Teams** | All 30 MLB teams grouped by division, live from the API. Click any team to see its current active roster |
+| **Players** | Live player search by name — no need to know a player's team, just search "Judge" or "Ohtani" directly |
+| **Player Detail** | Individual player page with live current-season stats (batting or pitching, detected automatically) plus bio info — birthdate, hometown, height/weight, bats/throws |
 | **About** | Project breakdown — tech stack, learnings, and what's next |
 
 ---
@@ -23,90 +25,26 @@ A data-driven, multi-page web application built with **Python** and **Flask** �
 
 - **Backend** — Python 3, Flask, Jinja2
 - **Frontend** — Vanilla HTML5, CSS3 (custom variables, grid, animations)
-- **Data** — Curated JSON files (`data/players.json`, `data/teams.json`)
-- **Dev Tools** — Git, GitHub, pip
+- **Data** — [MLB Stats API](https://statsapi.mlb.com) (official, free, no API key required) — fully live, no static files
+- **Dev Tools** — Git, GitHub, pip, requests
 
-No JavaScript frameworks. No CSS libraries. Built from scratch.
+No JavaScript frameworks. No CSS libraries. No stored data — everything is fetched live. Built from scratch.
 
 ---
 
 ## Features
 
-- **Multi-page routing** — clean URL structure via Flask's `@app.route`
+- **Live external API integration** — every page (except About) pulls real, current MLB data on request
+- **Smart caching** — standings cached 5 minutes, team/division lists cached 1 hour, since that data changes far less often than live game state; player stats are always fetched fresh
+- **Graceful degradation** — if the MLB API is slow or down, pages show a friendly "temporarily unavailable" message instead of crashing
+- **On-demand fetching** — player season stats are only requested when someone actually views that specific player, not pre-loaded for all ~750 active players
+- **Automatic stat-type detection** — a player's position determines whether batting or pitching stats are shown, no manual tagging needed
+- **Multi-page routing** — clean URL structure via Flask's `@app.route`, including dynamic routes like `/teams/<id>` and `/players/<id>`
 - **Template inheritance** — shared layout with Jinja2 `{% extends %}` and `{% block %}`
-- **Server-side search** — filters players by name or team via `request.args`
-- **JSON-driven content** — data separated cleanly from presentation layer
+- **Live server-side search** — searches MLB's actual player database via `/people/search`, not a local list
 - **Responsive design** — CSS Grid layout adapts to mobile, tablet, and desktop
 - **Active nav state** — current page highlighted via `active_page` context variable
 
 ---
 
 ## Project Structure
-```
-baseball-app/
-├── app.py                  # Flask routes and data helpers
-├── requirements.txt        # Dependencies (just Flask)
-├── data/
-│   ├── players.json        # 10 player records with stats and bios
-│   └── teams.json          # 6 franchise records
-├── templates/
-│   ├── base.html           # Shared layout (header, nav, footer, ticker)
-│   ├── index.html          # Home page
-│   ├── players.html        # Player search + grid
-│   ├── teams.html          # Team cards
-│   └── about.html          # Project details
-└── static/
-    └── style.css           # Full custom stylesheet
-```
-
----
-
-## Run Locally
-```bash
-# 1. Clone the repo
-git clone https://github.com/yourusername/baseball-app.git
-cd baseball-app
-
-# 2. Create and activate a virtual environment
-python -m venv venv
-source venv/bin/activate        # Windows: venv\Scripts\activate
-
-# 3. Install dependencies
-pip install -r requirements.txt
-
-# 4. Run the app
-python app.py
-```
-
-Open [http://localhost:5000](http://localhost:5000) in your browser.
-
----
-
-## What I Learned
-
-- Flask routing and the request/response cycle
-- Jinja2 template inheritance — keeping HTML DRY across pages
-- Serving dynamic content from structured JSON data
-- URL query parameters for server-side filtering
-- CSS custom properties, Grid layout, and keyframe animations
-- Git workflow — meaningful commits, `.gitignore`, project structure
-- Debugging local Flask development (port conflicts, static file paths, template errors)
-
----
-
-## Roadmap
-
-- [ ] Individual player detail pages (`/players/<id>`)
-- [ ] Integrate MLB Stats API for live data
-- [ ] Add team filter to players page
-- [ ] Deploy to Render or Railway (public URL)
-- [ ] "Did You Know?" trivia section
-
----
-
-## Author
-
-**Shrihan Bodapati** — Built as a portfolio project to learn Python web development through something I actually care about.
-
-[GitHub](https://github.com/Shrihan245) · [LinkedIn](https://www.linkedin.com/in/shrihan-bodapati)
-
