@@ -8,7 +8,7 @@
   <div class="page-hero fade-in fade-in-1">
     <p class="overline">The Project</p>
     <h1>About</h1>
-    <p>A portfolio project at the intersection of a genuine love for baseball and the challenge of building real web applications.</p>
+    <p>A portfolio project at the intersection of a genuine love for baseball and the challenge of building real, live-data web applications.</p>
   </div>
 
   <div class="about-layout fade-in fade-in-2">
@@ -24,8 +24,9 @@
           that honors that tradition while teaching myself the fundamentals of full-stack web development.
         </p>
         <p>
-          This project started as a simple multi-page Flask site and evolved into a data-driven application
-          with search, dynamic templates, and a JSON-driven backend. Every feature was a new lesson.
+          This project started as a simple multi-page Flask site running on static, hand-curated JSON data.
+          It's since evolved into a fully live application — every team, roster, player, and standing you see
+          is fetched in real time from MLB's official Stats API, not stored locally. Every feature was a new lesson.
         </p>
       </div>
 
@@ -35,9 +36,10 @@
           <span class="tech-pill">Python 3</span>
           <span class="tech-pill">Flask</span>
           <span class="tech-pill">Jinja2</span>
+          <span class="tech-pill">MLB Stats API</span>
+          <span class="tech-pill">requests</span>
           <span class="tech-pill">HTML5</span>
           <span class="tech-pill">CSS3</span>
-          <span class="tech-pill">JSON</span>
           <span class="tech-pill">Git / GitHub</span>
         </div>
       </div>
@@ -45,22 +47,23 @@
       <div class="about-section">
         <h3>What I Learned</h3>
         <div class="learnings-list">
-          <span class="learning-item">Flask routing — serving multiple pages from a single Python app</span>
-          <span class="learning-item">Jinja2 template inheritance — keeping HTML DRY with base layouts and blocks</span>
-          <span class="learning-item">Dynamic content rendering — loading and filtering JSON data per request</span>
-          <span class="learning-item">Search with query params — using <code style="font-family: monospace; color: var(--chalk);">request.args</code> to filter data server-side</span>
-          <span class="learning-item">CSS architecture — variables, responsive grids, and animations without a framework</span>
-          <span class="learning-item">Version control workflow — meaningful commits, structured branching</span>
-          <span class="learning-item">Local development — debugging Flask dev server, static file paths, port conflicts</span>
+          <span class="learning-item">Flask routing — serving multiple pages, including dynamic routes like <code style="font-family: monospace; color: var(--chalk);">/teams/&lt;id&gt;</code> and <code style="font-family: monospace; color: var(--chalk);">/players/&lt;id&gt;</code></span>
+          <span class="learning-item">Integrating a real external REST API — request params, JSON parsing, and reshaping raw responses into clean data for templates</span>
+          <span class="learning-item">Designing for API failure — timeouts and empty responses handled gracefully instead of crashing the page</span>
+          <span class="learning-item">Caching strategy — deciding what to cache and for how long based on how often data actually changes (standings vs. team lists vs. live stats)</span>
+          <span class="learning-item">On-demand data fetching — only requesting a player's stats when someone actually views that player, not pre-loading all ~780 active players</span>
+          <span class="learning-item">Jinja2 template inheritance — keeping HTML DRY with base layouts and blocks across a growing number of pages</span>
+          <span class="learning-item">Real debugging — a corrupted Python virtual environment, an empty file from an editor save conflict, and tracing exact API field names from live JSON instead of assumptions</span>
         </div>
       </div>
 
       <div class="about-section">
         <h3>What's Next</h3>
         <p>
-          The roadmap includes integrating a live API (MLB Stats API or Baseball Reference) to replace static
-          JSON data, adding individual player detail pages, and eventually deploying to a public URL so this
-          lives on a real server — not just localhost.
+          The scoreboard ticker on the home page is still decorative — making it pull real scores from the
+          <code style="font-family: monospace; color: var(--chalk);">/schedule</code> endpoint is next. After that: a
+          "compare two players" view, lightweight caching on player search results, and dynamic team colors
+          instead of a flat banner.
         </p>
       </div>
 
@@ -71,14 +74,17 @@
       <div class="sidebar-card">
         <h3>Project Links</h3>
         <div class="sidebar-link-list">
-          <a class="sidebar-link" href="https://github.com/Shrihan245/baseball-app" target="_blank" rel="noopener">
+          <a class="sidebar-link" href="https://github.com/Shrihan245/python-baseball-app" target="_blank" rel="noopener">
             <span class="icon">📁</span> Source Code on GitHub
           </a>
           <a class="sidebar-link" href="/players">
-            <span class="icon">🏅</span> Player Profiles
+            <span class="icon">🏅</span> Player Search
           </a>
           <a class="sidebar-link" href="/teams">
             <span class="icon">🏟️</span> Team Pages
+          </a>
+          <a class="sidebar-link" href="/standings">
+            <span class="icon">📊</span> Live Standings
           </a>
         </div>
 
@@ -89,10 +95,13 @@
             <span class="icon">🗓️</span> Started: 2025
           </div>
           <div class="sidebar-link" style="cursor: default;">
-            <span class="icon">📄</span> {{ total_players }} players in the database
+            <span class="icon">📡</span> Live from MLB's official Stats API
           </div>
           <div class="sidebar-link" style="cursor: default;">
-            <span class="icon">🏟️</span> {{ total_teams }} teams featured
+            <span class="icon">🏟️</span> {{ total_teams }} teams, fully live
+          </div>
+          <div class="sidebar-link" style="cursor: default;">
+            <span class="icon">🔍</span> Any active MLB player searchable by name
           </div>
           <div class="sidebar-link" style="cursor: default;">
             <span class="icon">⚙️</span> 0 JavaScript frameworks
