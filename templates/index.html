@@ -9,7 +9,8 @@
   <h1>Where stats meet <em>heart</em>.</h1>
   <p class="subtitle">
     Explore players, dig into teams, and see what happens when a love of
-    baseball collides with a love of building things on the web.
+    baseball collides with a love of building things on the web — powered
+    live by MLB's own official data.
   </p>
   <div class="hero-ctas">
     <a class="btn btn-primary" href="/players">Explore Players →</a>
@@ -22,7 +23,7 @@
   <div class="stats-strip">
     <div class="stat-block">
       <div class="stat-num">{{ total_players }}</div>
-      <div class="stat-label">Players Profiled</div>
+      <div class="stat-label">Active MLB Players</div>
     </div>
     <div class="stat-block">
       <div class="stat-num">{{ total_teams }}</div>
@@ -45,20 +46,20 @@
 
     <div class="card">
       <div class="home-card-icon">🏅</div>
-      <h3 class="home-card-title">Player Profiles</h3>
+      <h3 class="home-card-title">Player Search</h3>
       <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.65;">
-        Browse searchable profiles of today's best players — stats, teams,
-        positions, and a short bio for each. Filter by name or team in seconds.
+        Search any active MLB player by name, live from MLB's official Stats API —
+        real stats, real positions, updated as the season happens.
       </p>
-      <a class="home-card-link" href="/players">View all players →</a>
+      <a class="home-card-link" href="/players">Search players →</a>
     </div>
 
     <div class="card">
       <div class="home-card-icon">🏟️</div>
-      <h3 class="home-card-title">Team Deep Dives</h3>
+      <h3 class="home-card-title">All 30 Teams</h3>
       <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.65;">
-        Six featured franchises with founding years, championship counts,
-        home ballparks, and the key players making noise right now.
+        Every MLB franchise, grouped by division. Click into any team to see
+        its current active roster, pulled live — not a static list.
       </p>
       <a class="home-card-link" href="/teams">Browse teams →</a>
     </div>
@@ -68,7 +69,7 @@
       <h3 class="home-card-title">Built from Scratch</h3>
       <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.65;">
         Python · Flask · Jinja2 · vanilla CSS. No frameworks, no shortcuts —
-        just routing, templates, and JSON-driven data the right way.
+        just routing, templates, and a real live API integration done right.
       </p>
       <a class="home-card-link" href="/about">How it's built →</a>
     </div>

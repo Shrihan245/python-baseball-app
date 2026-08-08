@@ -3,13 +3,20 @@ Baseball & Me — Flask Web Application
 Author: Shrihan Bodapati
 
 A data-driven, multi-page Flask app showcasing live MLB teams,
-rosters, players, and standings via MLB's public Stats API.
+rosters, players, standings, and scores via MLB's public Stats API.
 """
 
 from flask import Flask, render_template, request, abort
 import mlb_api
 
 app = Flask(__name__)
+
+
+@app.context_processor
+def inject_ticker_scores():
+    """Makes today's scores available to every template automatically,
+    since the ticker lives in base.html and shows on every page."""
+    return {"ticker_games": mlb_api.get_todays_scores()}
 
 
 # ─── Routes ───────────────────────────────────────────────

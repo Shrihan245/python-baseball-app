@@ -8,12 +8,14 @@ something simple for templates to loop over, and fail gracefully
 """
 
 import time
+import datetime
 import requests
 
 STANDINGS_URL = "https://statsapi.mlb.com/api/v1/standings"
 TEAMS_URL = "https://statsapi.mlb.com/api/v1/teams"
 PEOPLE_URL = "https://statsapi.mlb.com/api/v1/people"
 PEOPLE_SEARCH_URL = "https://statsapi.mlb.com/api/v1/people/search"
+SCHEDULE_URL = "https://statsapi.mlb.com/api/v1/schedule"
 
 # American League = 103, National League = 104 — fixed IDs MLB uses internally
 LEAGUE_IDS = "103,104"
@@ -35,6 +37,9 @@ STANDINGS_CACHE_TTL_SECONDS = 300  # standings change often; refresh every 5 min
 
 _teams_cache = {"data": None, "fetched_at": 0}
 TEAMS_CACHE_TTL_SECONDS = 3600  # teams/divisions basically never change mid-season
+
+_scores_cache = {"data": None, "fetched_at": 0}
+SCORES_CACHE_TTL_SECONDS = 120  # scores change quickly during live games
 
 
 def get_standings():
@@ -286,3 +291,59 @@ def get_player_season_stats(person_id, is_pitcher=False):
             "rbi": stat.get("rbi", 0),
             "ops": stat.get("ops", "—"),
         }
+
+
+def get_todays_scores():
+    """
+    Fetch today's MLB games with current/final scores, for the home page ticker.
+
+    Returns a list shaped like:
+        [{"away_abbr": "LAD", "away_score": 5, "home_abbr": "NYY",
+          "home_score": 3, "state": "Final"}, ...]
+    Returns [] if there are no games today or the API call fails.
+    """
+    now = time.time()
+    if _scores_cache["data"] is not None and (now - _scores_cache["fetched_at"]) < SCORES_CACHE_TTL_SECONDS:
+        return _scores_cache["data"]
+
+    # Reuse our own team list to map team id -> abbreviation, rather than
+    # guessing at what fields the schedule endpoint includes by default.
+    team_abbr_lookup = {}
+    for division in get_all_teams():
+        for team in division["teams"]:
+            team_abbr_lookup[team["id"]] = team["abbreviation"]
+
+    today = datetime.date.today().isoformat()
+    try:
+        response = requests.get(
+            SCHEDULE_URL,
+            params={"sportId": 1, "date": today},
+            timeout=5,
+        )
+        response.raise_for_status()
+        raw = response.json()
+    except requests.RequestException:
+        return []
+
+    games = []
+    for date_entry in raw.get("dates", []):
+        for game in date_entry.get("games", []):
+            teams = game.get("teams", {})
+            away = teams.get("away", {})
+            home = teams.get("home", {})
+            status = game.get("status", {})
+
+            away_id = away.get("team", {}).get("id")
+            home_id = home.get("team", {}).get("id")
+
+            games.append({
+                "away_abbr": team_abbr_lookup.get(away_id, "—"),
+                "home_abbr": team_abbr_lookup.get(home_id, "—"),
+                "away_score": away.get("score"),
+                "home_score": home.get("score"),
+                "state": status.get("detailedState", ""),
+            })
+
+    _scores_cache["data"] = games
+    _scores_cache["fetched_at"] = now
+    return games

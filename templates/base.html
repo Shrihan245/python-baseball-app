@@ -9,22 +9,20 @@
   </head>
   <body>
 
-    <!-- Scoreboard ticker -->
+    <!-- Scoreboard ticker — live from MLB's schedule API, refreshed every 2 minutes -->
     <div class="scoreboard-banner">
       <div class="scoreboard-inner">
-        <span>LAD 5 · NYY 3</span>&nbsp;&nbsp;·&nbsp;&nbsp;
-        <span>ATL 7 · NYM 4</span>&nbsp;&nbsp;·&nbsp;&nbsp;
-        <span>HOU 2 · TEX 1</span>&nbsp;&nbsp;·&nbsp;&nbsp;
-        <span>CHC 6 · STL 2</span>&nbsp;&nbsp;·&nbsp;&nbsp;
-        <span>BOS 4 · TOR 4 · F/10</span>&nbsp;&nbsp;·&nbsp;&nbsp;
-        <span>SF 3 · SD 0</span>&nbsp;&nbsp;·&nbsp;&nbsp;
-        <!-- repeat for seamless ticker loop -->
-        <span>LAD 5 · NYY 3</span>&nbsp;&nbsp;·&nbsp;&nbsp;
-        <span>ATL 7 · NYM 4</span>&nbsp;&nbsp;·&nbsp;&nbsp;
-        <span>HOU 2 · TEX 1</span>&nbsp;&nbsp;·&nbsp;&nbsp;
-        <span>CHC 6 · STL 2</span>&nbsp;&nbsp;·&nbsp;&nbsp;
-        <span>BOS 4 · TOR 4 · F/10</span>&nbsp;&nbsp;·&nbsp;&nbsp;
-        <span>SF 3 · SD 0</span>
+        {% if ticker_games %}
+          {% for g in ticker_games %}
+            <span>{{ g.away_abbr }} {{ g.away_score if g.away_score is not none else '' }} · {{ g.home_abbr }} {{ g.home_score if g.home_score is not none else '' }}{% if g.state == 'Final' %} F{% endif %}</span>&nbsp;&nbsp;·&nbsp;&nbsp;
+          {% endfor %}
+          <!-- repeat once for a seamless ticker loop -->
+          {% for g in ticker_games %}
+            <span>{{ g.away_abbr }} {{ g.away_score if g.away_score is not none else '' }} · {{ g.home_abbr }} {{ g.home_score if g.home_score is not none else '' }}{% if g.state == 'Final' %} F{% endif %}</span>&nbsp;&nbsp;·&nbsp;&nbsp;
+          {% endfor %}
+        {% else %}
+          <span>No games scheduled today</span>
+        {% endif %}
       </div>
     </div>
 
@@ -48,7 +46,7 @@
     <footer>
       <div class="container">
         <p>
-          Built with Python &amp; Flask · Data: curated JSON ·
+          Built with Python &amp; Flask · Data: live MLB Stats API ·
           <a href="https://github.com/Shrihan245/python-baseball-app" target="_blank" rel="noopener">GitHub ↗</a>
           · Created by Shrihan Bodapati
         </p>
